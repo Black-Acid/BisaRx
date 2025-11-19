@@ -6,7 +6,8 @@ from sqlalchemy.orm import DeclarativeBase
 
 
 
-DB_URL = "sqlite:///./BisaRxDB.db"
+DB_URL = "sqlite:///C:/Users/LENOVO/Desktop/bisaRx/bisaRxApi/BisaRxDB.db"
+
 
 engine = sql.create_engine(DB_URL, connect_args={"check_same_thread": False})
 
