@@ -32,3 +32,35 @@ async def register_user(user: sma.UserRequest, db: orm.Session = Depends(sv.get_
 
     print(creating_user)
     return await sv.create_token(creating_user)
+
+
+@app.post("/api/login")
+async def login(form_data: security.OAuth2PasswordRequestForm = Depends(), db: orm.Session = Depends(sv.get_db)):
+    db_user = await sv.login(form_data.username, form_data.password, db)
+    if not db_user:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    return await sv.create_token(db_user)
+
+
+
+@app.post("/api/send-data")
+async def query(
+    data: sma.UserQuery,
+    user: sma.UserResponse = Depends(sv.get_current_user),
+    db: orm.Session = Depends(sv.get_db)
+):
+    user_id = str(user.id)
+
+    # If user is already in a question session, handle conversational logic
+    if user_id in sv.user_sessions:
+        response = await sv.handle_conversation(user_id, data.message, sv.retriever)
+        return {"response": response}
+
+    print("Fetching new response from Groq or retriever...")
+    response = await sv.handle_conversation(user_id, data.message, sv.retriever)
+
+    
+    queryResponse = sma.UserQueryResponse(message=data.message, response=response)
+    await sv.save_queries(queryResponse, db, user.id)
+
+    return {"response": response}
