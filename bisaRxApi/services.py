@@ -1,4 +1,4 @@
-from database import engine, SessionLocal, Base
+from bisaRxApi.database import engine, SessionLocal, Base
 import bisaRxApi.models as models
 from passlib.context import CryptContext
 from fastapi import HTTPException, security, Depends
