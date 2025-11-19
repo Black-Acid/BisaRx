@@ -1,5 +1,5 @@
 from database import engine, SessionLocal, Base
-import models
+import bisaRxApi.models as models
 from passlib.context import CryptContext
 from fastapi import HTTPException, security, Depends
 import bisaRxApi.schemas as sma

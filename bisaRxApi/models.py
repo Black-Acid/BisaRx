@@ -1,5 +1,5 @@
 from sqlalchemy import (Column, Integer, ForeignKey, String, Float, Text, DateTime)
-from database import Base
+from bisaRxApi.database import Base
 from passlib.context import CryptContext
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship

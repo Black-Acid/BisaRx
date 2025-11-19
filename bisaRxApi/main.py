@@ -10,7 +10,7 @@ import bisaRxApi.schemas as sma
 from sqlalchemy import orm
 import os
 from dotenv import load_dotenv
-import services as sv
+import bisaRxApi.services as sv
 
 app = FastAPI()
 
