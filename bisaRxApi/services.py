@@ -14,6 +14,12 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 JWT_SECRET = "nsand329324nrlksndlak;asjdoiqw2"
 oauth2schema = security.OAuth2PasswordBearer("/api/login")
 
+
+MAX_BCRYPT_LENGTH = 72
+
+def hash_password(password: str) -> str:
+    return pwd_context.hash(password[:MAX_BCRYPT_LENGTH])
+
 def create_db():
     Base.metadata.create_all(bind=engine)
     
@@ -28,11 +34,11 @@ def get_db():
         
         
 async def create_user(user: sma.UserRequest, db: orm.Session):
-    hash_password = pwd_context.hash(user.password)
+    hashed_pw = hash_password(user.password)
     try:
         new_user = models.UserModel(
             username=user.username,
-            hashed_password=hash_password
+            hashed_password=hashed_pw
         )
         db.add(new_user)
         db.commit()
@@ -56,3 +62,14 @@ async def create_token(user: models.UserModel):
 
 async def get_user(user: sma.UserRequest, db: orm.Session):
     return db.query(models.UserModel).filter_by(username=user.username).first()
+
+
+
+# pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# MAX_BCRYPT_LENGTH = 72
+
+# def hash_password(password: str) -> str:
+#     return pwd_context.hash(password[:MAX_BCRYPT_LENGTH])
+
+# def verify_password(password: str, hashed: str) -> bool:
+#     return pwd_context.verify(password[:MAX_BCRYPT_LENGTH], hashed)

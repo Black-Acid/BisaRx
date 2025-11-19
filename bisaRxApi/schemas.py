@@ -17,7 +17,7 @@ class UserRequest(UserBase):
     
 class UserResponse(UserBase):
     id : int
-    balance: int 
+    
     
     class Config:
         from_attributes = True
