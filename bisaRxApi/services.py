@@ -2,7 +2,7 @@ from database import engine, SessionLocal, Base
 import models
 from passlib.context import CryptContext
 from fastapi import HTTPException, security, Depends
-import schema as sma
+import bisaRxApi.schemas as sma
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import orm
 import jwt

@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 logger.info("I have found my main.py")
 
 from fastapi import Depends, FastAPI, HTTPException, security
-import schema as sma
+import bisaRxApi.schemas as sma
 from sqlalchemy import orm
 import os
 from dotenv import load_dotenv
