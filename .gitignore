@@ -3,11 +3,11 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-
-# Virtual environment
+*.env
+*.venv
 venv/
-.env
-
-# IDEs
-.vscode/
-.idea/
+bisaRx/Lib/
+bisaRx/Scripts/
+bisaRx/Include/
+*.log
+.DS_Store
