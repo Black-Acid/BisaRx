@@ -52,3 +52,7 @@ async def create_token(user: models.UserModel):
     token = jwt.encode(user_dict, JWT_SECRET)
     
     return dict(access_token=token, token_type="bearer")
+
+
+async def get_user(user: sma.UserRequest, db: orm.Session):
+    return db.query(models.UserModel).filter_by(username=user.username).first()
