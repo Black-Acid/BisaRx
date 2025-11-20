@@ -13,3 +13,7 @@ bisaRx/Include/
 .DS_Store
 bisaRx/Lib/
 bisaRx/pyvenv.cfg
+rx/Lib/
+rx/Scripts/
+rx/Include/
+rx/
