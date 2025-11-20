@@ -11,3 +11,5 @@ bisaRx/Scripts/
 bisaRx/Include/
 *.log
 .DS_Store
+bisaRx/Lib/
+bisaRx/pyvenv.cfg
