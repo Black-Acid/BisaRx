@@ -9,7 +9,6 @@ from fastapi import Depends, FastAPI, HTTPException, security
 import bisaRxApi.schemas as sma
 from sqlalchemy import orm
 import os
-from dotenv import load_dotenv
 import bisaRxApi.services as sv
 
 app = FastAPI()
@@ -57,6 +56,7 @@ async def query(
         return {"response": response}
 
     print("Fetching new response from Groq or retriever...")
+    await sv.initialize_services()
     response = await sv.handle_conversation(user_id, data.message, sv.retriever)
 
     

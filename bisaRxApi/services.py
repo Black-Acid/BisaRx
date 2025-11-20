@@ -13,6 +13,8 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
+import os
+from dotenv import load_dotenv
 
 user_sessions: Dict[str, Dict[str, List[str]]] = {}
 
@@ -21,6 +23,8 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 JWT_SECRET = "nsand329324nrlksndlak;asjdoiqw2"
 oauth2schema = security.OAuth2PasswordBearer("/api/login")
 
+dotenv_path = os.path.join(os.path.dirname(__file__), "..", ".env")
+load_dotenv(dotenv_path)
 
 MAX_BCRYPT_LENGTH = 72
 
@@ -258,8 +262,11 @@ async def initialize_services():
     )
 
     # Load FAISS index from saved local folder
+    index_path = os.path.join(os.path.dirname(__file__), "theBook_faiss_index")
     vectorstore = await asyncio.to_thread(
-        lambda: FAISS.load_local("theBook_faiss_index", embeddings)
+        lambda: FAISS.load_local(
+            index_path, embeddings, allow_dangerous_deserialization=True
+        )
     )
 
     # Set up retriever
@@ -272,7 +279,7 @@ async def handle_intent_with_ai(intent: str, message: str, history: str, session
     """
     Generates dynamic responses for detected intents using a small AI model.
     """
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.7, openai_api_key=os.getenv("OPENAI_API_KEY"))
 
     prompt_text = """
     You are a friendly, intelligent pharmacy assistant chatbot.
@@ -324,7 +331,7 @@ async def handle_conversation(user_id: str, message: str, retriever):
         Patient symptom:
         {message}
         """
-        llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.4)
+        llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.4, openai_api_key=os.getenv("OPENAI_API_KEY"))
         result = await llm.ainvoke(prompt) if hasattr(llm, "ainvoke") else await asyncio.to_thread(llm.invoke, prompt)
         questions = [q.strip() for q in result.content.split("\n") if q.strip().endswith("?")] if hasattr(result, "content") else []
 

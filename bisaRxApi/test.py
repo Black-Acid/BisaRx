@@ -3,7 +3,7 @@
 # from langchain_community.embeddings import HuggingFaceEmbeddings
 # from langchain_community.vectorstores import FAISS
 # from pathlib import Path
-# import os
+import os
 
 # # === STEP 1: Load your pharmacology book ===
 
@@ -34,3 +34,18 @@
 
 # pdf_paths = os.path.abspath("theBook_faiss_index")
 # print(pdf_paths)
+
+
+# services.py
+from dotenv import load_dotenv
+
+
+dotenv_path = os.path.join(os.path.dirname(__file__), "..", ".env")
+load_dotenv(dotenv_path)
+
+# Check the key
+api_key = os.getenv("OPENAI_API_KEY")
+print("OPENAI_API_KEY =", api_key)
+
+if not api_key:
+    raise RuntimeError("OPENAI_API_KEY is not set! Check your .env")
