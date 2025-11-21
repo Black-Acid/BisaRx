@@ -10,6 +10,7 @@ import bisaRxApi.schemas as sma
 from sqlalchemy import orm
 import os
 import bisaRxApi.services as sv
+import uvicorn
 
 app = FastAPI()
 
@@ -64,3 +65,12 @@ async def query(
     await sv.save_queries(queryResponse, db, user.id)
 
     return {"response": response}
+
+
+@app.get("/")
+def root():
+    return {"message": "Hello Render!"}
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))  # Use Render's port
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
