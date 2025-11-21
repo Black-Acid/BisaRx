@@ -21,3 +21,4 @@ fsspec==2025.10.0
 safetensors==0.7.0
 faiss-cpu==1.13.0
 psycopg==3.2.12
+psycopg2==2.9.11
